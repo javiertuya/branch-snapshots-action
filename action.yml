@@ -23,6 +23,7 @@ runs:
           cache: 'maven'
 
       - name: Rename version to <version number>-<branch name>-SNAPSHOT
+        shell: bash
         run: |
           oldversion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "Renaming old version: ${oldversion}"
@@ -45,6 +46,7 @@ runs:
 
       # note that deploy uses the profile that specifies the github repository server
       - name: Deploy to GitHub packages
+        shell: bash
         run: mvn deploy -P publish-github -DskipTests=true -Dmaven.test.failure.ignore=true -U --no-transfer-progress
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
