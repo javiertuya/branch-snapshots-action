@@ -1,25 +1,25 @@
 # action.yml
 name: 'Branch Snapshots Action'
-description: 'Generates junit html style reports from surefire test results'
+description: 'This action publishes branch snapshots to the GitHub Packages Maven registry'
 inputs:
   token:
-    description: 'Token to access the GitHub Packages'
+    description: 'Token to access GitHub Packages'
     required: true
   java-version:
-    description: 'Version of java to build the package'
+    description: 'Java version used to build the package'
     required: true
   mvn-deploy-args:
-    description: 'Arguments to be passed to the `mvn deploy` command'
+    description: 'Optional arguments to be passed to the `mvn deploy` command'
     required: false
   package-name:
     description: 'Name of the package to publish'
     required: true
   delete-old-versions:
-    description: 'If true, only keep `min-versions-to-keep` versions (default is false)'
+    description: 'If true, keeps only `min-versions-to-keep` versions. Default: false'
     required: false
     default: false
   min-versions-to-keep:
-    description: 'The number of latest versions to keep if `delete-old-versions` is true (default is 2)'
+    description: 'The number of latest versions to keep if `delete-old-versions` is true. Default: 2'
     required: false
     default: 2
 runs:
@@ -57,7 +57,6 @@ runs:
           min-versions-to-keep: ${{ inputs.min-versions-to-keep }}
           delete-only-pre-release-versions: "true"
 
-      # note that deploy uses the profile that specifies the github repository server
       - name: Deploy to GitHub packages
         shell: bash
         run: mvn deploy ${{ inputs.mvn-deploy-args }}
