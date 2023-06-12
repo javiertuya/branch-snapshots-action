@@ -14,7 +14,7 @@ inputs:
   min-versions-to-keep:
     description: 'The number of latest versions to keep'
     required: false
-    default: 2
+    default: 0
 runs:
   using: "composite"
   steps:
@@ -43,6 +43,7 @@ runs:
       # TODO check how to exclude current branch
       # NOTE at least one package must exist, if not the build fails (comment for the first build)
       - uses: actions/delete-package-versions@v4
+        if: inputs.min-versions-to-keep != 0
         with: 
           package-name: ${{ inputs.package-name }}
           package-type: 'maven'
