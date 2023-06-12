@@ -11,10 +11,14 @@ inputs:
   package-name:
     description: 'Name of the package to publish'
     required: true
-  min-versions-to-keep:
-    description: 'The number of latest versions to keep'
+  delete-old-versions:
+    description: 'If true, only keep `min-versions-to-keep` versions (default is false)'
     required: false
-    default: 0
+    default: false
+  min-versions-to-keep:
+    description: 'The number of latest versions to keep if `delete-old-versions` is true (default is 2)'
+    required: false
+    default: 2
 runs:
   using: "composite"
   steps:
@@ -43,7 +47,7 @@ runs:
       # TODO check how to exclude current branch
       # NOTE at least one package must exist, if not the build fails (comment for the first build)
       - uses: actions/delete-package-versions@v4
-        if: inputs.min-versions-to-keep != 0
+        if: inputs.delete-old-versions
         with: 
           package-name: ${{ inputs.package-name }}
           package-type: 'maven'
