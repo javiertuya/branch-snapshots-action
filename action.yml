@@ -8,6 +8,13 @@ inputs:
   java-version:
     description: 'Version of java to build the package'
     required: true
+  package-name:
+    description: 'Name of the package to publish'
+    required: true
+  min-versions-to-keep:
+    description: 'The number of latest versions to keep'
+    required: false
+    default: 2
 runs:
   using: "composite"
   steps:
@@ -37,9 +44,9 @@ runs:
       # NOTE at least one package must exist, if not the build fails (comment for the first build)
       - uses: actions/delete-package-versions@v4
         with: 
-          package-name: 'giis.branch-snapshots'
+          package-name: ${{ inputs.package-name }}
           package-type: 'maven'
-          min-versions-to-keep: 2
+          min-versions-to-keep: ${{ inputs.min-versions-to-keep }}
           delete-only-pre-release-versions: "true"
 
       # note that deploy uses the profile that specifies the github repository server
