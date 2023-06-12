@@ -2,10 +2,9 @@
 name: 'Branch Snapshots Action'
 description: 'Generates junit html style reports from surefire test results'
 inputs:
-  surefire-files:
-    description: 'Specification of surefire files (can use * and  ** wildcards)'
-    required: false
-    default: '**/target/surefire-reports/TEST-*.xml'
+  token:
+    description: 'Token to access the GitHub Packages'
+    required: true
   report-dir:
     description: 'Directory where the junit html reports will be generated'
     required: false
@@ -49,4 +48,4 @@ runs:
         shell: bash
         run: mvn deploy -P publish-github -DskipTests=true -Dmaven.test.failure.ignore=true -U --no-transfer-progress
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ inputs.token }}
