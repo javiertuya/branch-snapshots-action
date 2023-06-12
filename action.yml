@@ -1,0 +1,50 @@
+# action.yml
+name: 'Branch Snapshots Action'
+description: 'Generates junit html style reports from surefire test results'
+inputs:
+  surefire-files:
+    description: 'Specification of surefire files (can use * and  ** wildcards)'
+    required: false
+    default: '**/target/surefire-reports/TEST-*.xml'
+  report-dir:
+    description: 'Directory where the junit html reports will be generated'
+    required: false
+    default: 'target/site'
+runs:
+  using: "composite"
+  steps:
+      - name: Checkout GitHub repo
+        uses: actions/checkout@v3
+      - name: Select Java Version
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '8'
+          cache: 'maven'
+
+      - name: Rename version to <version number>-<branch name>-SNAPSHOT
+        run: |
+          oldversion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "Renaming old version: ${oldversion}"
+          version=${oldversion//-SNAPSHOT/}
+          version=${version}-${BRANCH_NAME}-SNAPSHOT
+          echo "to new Version: $version"
+          mvn versions:set -DnewVersion=$version --no-transfer-progress
+
+      # manage package versions shows the date in which branch was created, not executed
+      # if no changing version number, this will keep latest 2 branches BY BRANCH CREATION
+      # because of this, deletion must be done BEFORE deploy (if not, a version of old branch can be deleted after being updated)
+      # TODO check how to exclude current branch
+      # NOTE at least one package must exist, if not the build fails (comment for the first build)
+      - uses: actions/delete-package-versions@v4
+        with: 
+          package-name: 'giis.branch-snapshots'
+          package-type: 'maven'
+          min-versions-to-keep: 2
+          delete-only-pre-release-versions: "true"
+
+      # note that deploy uses the profile that specifies the github repository server
+      - name: Deploy to GitHub packages
+        run: mvn deploy -P publish-github -DskipTests=true -Dmaven.test.failure.ignore=true -U --no-transfer-progress
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
