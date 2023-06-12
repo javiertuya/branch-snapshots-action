@@ -47,7 +47,7 @@ runs:
       # TODO check how to exclude current branch
       # NOTE at least one package must exist, if not the build fails (comment for the first build)
       - uses: actions/delete-package-versions@v4
-        if: inputs.delete-old-versions == true
+        if: inputs.delete-old-versions == 'true'
         with: 
           package-name: ${{ inputs.package-name }}
           package-type: 'maven'
