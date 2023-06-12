@@ -25,8 +25,16 @@ inputs:
 runs:
   using: "composite"
   steps:
+      - name: Check that event is not PR
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          echo "ERROR: Branch snapshots can not be created by pull request events"
+          exit 1
+        
       - name: Checkout GitHub repo
         uses: actions/checkout@v3
+
       - name: Select Java Version
         uses: actions/setup-java@v3
         with:
@@ -38,9 +46,9 @@ runs:
         shell: bash
         run: |
           oldversion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          echo "Renaming old version: ${oldversion}"
+          echo "Renaming initial version: ${oldversion}"
           version=${oldversion//-SNAPSHOT/}
-          version=${version}-${BRANCH_NAME}-SNAPSHOT
+          version=${version}-${{ github.ref_name }}-SNAPSHOT
           echo "to new Version: $version"
           mvn versions:set -DnewVersion=$version --no-transfer-progress
 
