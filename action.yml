@@ -8,6 +8,9 @@ inputs:
   java-version:
     description: 'Version of java to build the package'
     required: true
+  mvn-deploy-args:
+    description: 'Arguments to be passed to the `mvn deploy` command'
+    required: false
   package-name:
     description: 'Name of the package to publish'
     required: true
@@ -42,10 +45,10 @@ runs:
           mvn versions:set -DnewVersion=$version --no-transfer-progress
 
       # manage package versions shows the date in which branch was created, not executed
-      # if no changing version number, this will keep latest 2 branches BY BRANCH CREATION
+      # if no changing version number, this will keep latest `min-versions-to-keep` branches BY BRANCH CREATION
       # because of this, deletion must be done BEFORE deploy (if not, a version of old branch can be deleted after being updated)
-      # TODO check how to exclude current branch
-      # NOTE at least one package must exist, if not the build fails (comment for the first build)
+      # NOTE at least one package must exist, if not the build fails:
+      # First time that a package is published `delete-old-versions`, must be set to false
       - uses: actions/delete-package-versions@v4
         if: inputs.delete-old-versions == 'true'
         with: 
@@ -57,6 +60,6 @@ runs:
       # note that deploy uses the profile that specifies the github repository server
       - name: Deploy to GitHub packages
         shell: bash
-        run: mvn deploy -P publish-github -DskipTests=true -Dmaven.test.failure.ignore=true -U --no-transfer-progress
+        run: mvn deploy ${{ mvn-deploy-args }}
         env:
           GITHUB_TOKEN: ${{ inputs.token }}
