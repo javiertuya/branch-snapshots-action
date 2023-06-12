@@ -5,6 +5,10 @@ inputs:
   token:
     description: 'Token to access GitHub Packages'
     required: true
+  working-diretory:
+    description: 'The name of the working directory from which the mvn deploy is executed'
+    required: false
+    default: "."
   java-version:
     description: 'Java version used to build the package'
     required: true
@@ -44,6 +48,7 @@ runs:
 
       - name: Rename version to <version number>-<branch name>-SNAPSHOT
         shell: bash
+        working-directory: ${{ inputs.working-directory }}
         run: |
           oldversion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "Renaming initial version: ${oldversion}"
@@ -67,6 +72,7 @@ runs:
 
       - name: Deploy to GitHub packages
         shell: bash
+        working-directory: ${{ inputs.working-directory }}
         run: mvn deploy ${{ inputs.mvn-deploy-args }}
         env:
           GITHUB_TOKEN: ${{ inputs.token }}
