@@ -8,7 +8,7 @@ NOTE: This action does a checkout and manipultes the version number in the pom.x
 ## Inputs
 
 - `token`: Token to access GitHub Packages
-- `working-diretory`: The name of the working directory from which the mvn deploy is executed'. Default `.`
+- `working-directory`: The name of the working directory from which the mvn deploy is executed'. Default `.`
 - `java-version`: Java version used to build the package
 - `mvn-deploy-args`: Optional arguments to be passed to the `mvn deploy` command
 - `package-name`: Name of the package to publish

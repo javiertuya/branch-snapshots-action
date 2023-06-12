@@ -5,7 +5,7 @@ inputs:
   token:
     description: 'Token to access GitHub Packages'
     required: true
-  working-diretory:
+  working-directory:
     description: 'The name of the working directory from which the mvn deploy is executed'
     required: false
     default: "."
