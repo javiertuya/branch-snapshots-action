@@ -5,10 +5,9 @@ inputs:
   token:
     description: 'Token to access the GitHub Packages'
     required: true
-  report-dir:
-    description: 'Directory where the junit html reports will be generated'
-    required: false
-    default: 'target/site'
+  java-version:
+    description: 'Version of java to build the package'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -18,7 +17,7 @@ runs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: ${{ inputs.java-version }}
           cache: 'maven'
 
       - name: Rename version to <version number>-<branch name>-SNAPSHOT
