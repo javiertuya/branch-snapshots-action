@@ -60,6 +60,6 @@ runs:
       # note that deploy uses the profile that specifies the github repository server
       - name: Deploy to GitHub packages
         shell: bash
-        run: mvn deploy ${{ mvn-deploy-args }}
+        run: mvn deploy ${{ inputs.mvn-deploy-args }}
         env:
           GITHUB_TOKEN: ${{ inputs.token }}
