@@ -62,7 +62,15 @@ runs:
       # because of this, deletion must be done BEFORE deploy (if not, a version of old branch can be deleted after being updated)
       # NOTE at least one package must exist, if not the build fails:
       # First time that a package is published `delete-old-versions`, must be set to false
-      - uses: actions/delete-package-versions@v4
+#      - uses: actions/delete-package-versions@v4
+#        if: inputs.delete-old-versions == 'true'
+#        with: 
+#          package-name: ${{ inputs.package-name }}
+#          package-type: 'maven'
+#          min-versions-to-keep: ${{ inputs.min-versions-to-keep }}
+#          delete-only-pre-release-versions: "true"
+
+      - uses: apegroup/delete-package-versions@v5.0.0-test22
         if: inputs.delete-old-versions == 'true'
         with: 
           package-name: ${{ inputs.package-name }}
