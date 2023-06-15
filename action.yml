@@ -73,7 +73,7 @@ runs:
       - uses: apegroup/delete-package-versions@v5.0.0-test22
         if: inputs.delete-old-versions == 'true'
         with: 
-          package-name: ${{ inputs.package-name }}
+          package-names: '*'
           package-type: 'maven'
           min-versions-to-keep: ${{ inputs.min-versions-to-keep }}
           delete-only-pre-release-versions: "true"
