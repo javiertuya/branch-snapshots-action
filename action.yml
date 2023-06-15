@@ -16,12 +16,12 @@ inputs:
     description: 'Optional arguments to be passed to the `mvn deploy` command'
     required: false
     default: ""
-  delete-old-branches:
-    description: 'If true, keeps only `min-branches-to-keep` branches (versions)'
+  delete-old-snapshots:
+    description: 'If true, keeps only `min-snapshots-to-keep` branch snapshots (versions)'
     required: false
     default: false
-  min-branches-to-keep:
-    description: 'The number of latest branches (versions) to keep if `delete-old-branches` is true'
+  min-snapshots-to-keep:
+    description: 'The number of latest branch snapshots (versions) to keep if `delete-old-snapshots` is true'
     required: false
     default: 2
 runs:
@@ -73,11 +73,11 @@ runs:
       # but still not merged.
       # Here, using the fork with this feature until merged into the official action
       - uses: apegroup/delete-package-versions@v5.0.0-test22
-        if: inputs.delete-old-branches == 'true'
+        if: inputs.delete-old-snapshots == 'true'
         with: 
           package-names: '*'
           package-type: 'maven'
-          min-versions-to-keep: ${{ inputs.min-branches-to-keep }}
+          min-versions-to-keep: ${{ inputs.min-snapshots-to-keep }}
           delete-only-pre-release-versions: "true"
 
       - name: Deploy to GitHub packages

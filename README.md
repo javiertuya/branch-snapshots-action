@@ -10,8 +10,8 @@ Each time that it is executed, builds the system and publishes a snapshot with t
 - `working-directory` *(Default to root directory)*: The name of the working directory from which the mvn deploy is executed'
 - `java-version` *(Required)*: Java version used to build the package
 - `mvn-deploy-args`: Optional arguments to be passed to the `mvn deploy` command
-- `delete-old-branches` *(Default false)*: If true, keeps only `min-branches-to-keep` branches (versions)
-- `min-branches-to-keep` *(Default 2)*: The number of latest branches (versions) to keep if `delete-old-branches` is true
+- `delete-old-snapshots` *(Default false)*: If true, keeps only `min-snapshots-to-keep` branch snapshots (versions)
+- `min-snapshots-to-keep` *(Default 2)*: The number of latest branch snapshots (versions) to keep if `delete-old-snapshots` is true
 
 ## Example usage
 
@@ -22,8 +22,8 @@ Each time that it is executed, builds the system and publishes a snapshot with t
           working-directory: test
           java-version: '8'
           mvn-deploy-args: '-P publish-github -DskipTests=true -Dmaven.test.failure.ignore=false -U --no-transfer-progress'
-          delete-old-branches: true
-          min-branches-to-keep: 4
+          delete-old-snapshots: true
+          min-snapshots-to-keep: 4
 ```
 
 This action is better used from a dedicated job or workflow, see job `publish-java-snapshot` in:
