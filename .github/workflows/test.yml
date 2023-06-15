@@ -39,7 +39,7 @@ jobs:
       run:
         working-directory: test
     steps:
-      - uses: javiertuya/branch-snapshots-action@v1.0.0
+      - uses: javiertuya/branch-snapshots-action@multimodule
         with: 
           token: ${{ secrets.GITHUB_TOKEN }}
           working-directory: test
