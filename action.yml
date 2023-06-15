@@ -15,15 +15,13 @@ inputs:
   mvn-deploy-args:
     description: 'Optional arguments to be passed to the `mvn deploy` command'
     required: false
-  package-name:
-    description: 'Name of the package to publish'
-    required: true
-  delete-old-versions:
-    description: 'If true, keeps only `min-versions-to-keep` versions. Default: false'
+    default: ""
+  delete-old-branches:
+    description: 'If true, keeps only `min-branches-to-keep` branches (versions)'
     required: false
     default: false
-  min-versions-to-keep:
-    description: 'The number of latest versions to keep if `delete-old-versions` is true. Default: 2'
+  min-branches-to-keep:
+    description: 'The number of latest branches (versions) to keep if `delete-old-branches` is true'
     required: false
     default: 2
 runs:
@@ -70,12 +68,16 @@ runs:
 #          min-versions-to-keep: ${{ inputs.min-versions-to-keep }}
 #          delete-only-pre-release-versions: "true"
 
+      # Official version (commented above) does not support multiple package deletion
+      # There is PR https://github.com/actions/delete-package-versions/pull/96 to do so,
+      # but still not merged.
+      # Here, using the fork with this feature until merged into the official action
       - uses: apegroup/delete-package-versions@v5.0.0-test22
-        if: inputs.delete-old-versions == 'true'
+        if: inputs.delete-old-branches == 'true'
         with: 
           package-names: '*'
           package-type: 'maven'
-          min-versions-to-keep: ${{ inputs.min-versions-to-keep }}
+          min-versions-to-keep: ${{ inputs.min-branches-to-keep }}
           delete-only-pre-release-versions: "true"
 
       - name: Deploy to GitHub packages

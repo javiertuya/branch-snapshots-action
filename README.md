@@ -1,33 +1,30 @@
 # Branch Snapshots Action
 
-This action publishes branch snapshots to the GitHub Packages Maven registry.
-Each time that it is executed, builds the system and publishes a snapshot with the version name `<version number>-<branch name>-SNAPSHOT`.
-
-NOTE: This action does a checkout and manipultes the version number in the pom.xml before publishing: it must be run in a dedicated job or workflow.
+This action publishes maven branch snapshots to the GitHub Packages Maven registry.
+Each time that it is executed, builds the system and publishes a snapshot with the version in the form
+`<version number>-<branch name>-SNAPSHOT`.
 
 ## Inputs
 
-- `token`: Token to access GitHub Packages
-- `working-directory`: The name of the working directory from which the mvn deploy is executed'. Default `.`
-- `java-version`: Java version used to build the package
+- `token` *(Required)*: Token to access GitHub Packages
+- `working-directory` *(Default to root directory)*: The name of the working directory from which the mvn deploy is executed'
+- `java-version` *(Required)*: Java version used to build the package
 - `mvn-deploy-args`: Optional arguments to be passed to the `mvn deploy` command
-- `package-name`: Name of the package to publish
-- `delete-old-versions`: If true, keeps only `min-versions-to-keep` versions. Default: false.
-  NOTE: First time that a package is published, this parameter must be set to false
-  to avoid a failure on deletion.
-- `min-versions-to-keep`: The number of latest versions to keep if `delete-old-versions` is true. Default: 2
+- `delete-old-branches` *(Default false)*: If true, keeps only `min-branches-to-keep` branches (versions)
+- `min-branches-to-keep` *(Default 2)*: The number of latest branches (versions) to keep if `delete-old-branches` is true
 
 ## Example usage
 
-See https://github.com/javiertuya/branch-snapshots, workflow called `test.yml`:
-
 ```yaml
-      - uses: javiertuya/branch-snapshots-action@main
+      - uses: javiertuya/branch-snapshots-action@v1.1.0
         with: 
           token: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: test
           java-version: '8'
-          mvn-deploy-args: '-P publish-github -DskipTests=true -Dmaven.test.failure.ignore=true -U --no-transfer-progress'
-          package-name: 'giis.branch-snapshots'
-          delete-old-versions: true
-          min-versions-to-keep: 4
+          mvn-deploy-args: '-P publish-github -DskipTests=true -Dmaven.test.failure.ignore=false -U --no-transfer-progress'
+          delete-old-branches: true
+          min-branches-to-keep: 4
 ```
+
+This action is better used from a dedicated job or workflow, see job `publish-java-snapshot` in:
+[github/workflows/test.yml](https://github.com/javiertuya/branch-snapshots-action/blob/multimodule/.github/workflows/test.yml)

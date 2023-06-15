@@ -45,6 +45,5 @@ jobs:
           working-directory: test
           java-version: '8'
           mvn-deploy-args: '-P publish-github -DskipTests=true -Dmaven.test.failure.ignore=false -U --no-transfer-progress'
-          package-name: 'io.github.javiertuya.test-branch-snapshots'
-          delete-old-versions: false
-          min-versions-to-keep: 2
+          delete-old-branches: true
+          min-branches-to-keep: 2
