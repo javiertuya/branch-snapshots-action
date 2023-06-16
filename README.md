@@ -27,4 +27,4 @@ Each time that it is executed, builds the system and publishes a snapshot with t
 ```
 
 This action is better used from a dedicated job or workflow, see job `publish-java-snapshot` in:
-[github/workflows/test.yml](https://github.com/javiertuya/branch-snapshots-action/blob/multimodule/.github/workflows/test.yml)
+[.github/workflows/test.yml](https://github.com/javiertuya/branch-snapshots-action/blob/main/.github/workflows/test.yml)
