@@ -1,6 +1,10 @@
 # action.yml
 name: 'Branch Snapshots Action'
 description: 'This action publishes branch snapshots to the GitHub Packages Maven registry'
+author: "Javier Tuya"
+branding:
+  icon: git-branch
+  color: blue
 inputs:
   token:
     description: 'Token to access GitHub Packages'
