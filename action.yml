@@ -28,6 +28,10 @@ inputs:
     description: 'The number of latest branch snapshots (versions) to keep if `delete-old-snapshots` is true'
     required: false
     default: 2
+  always-keep-regex:
+    description: 'A regex to specify branch snapshots (versions) that never will be deleted even if `delete-old-snapshots` is true'
+    required: false
+    default: ""
 runs:
   using: "composite"
   steps:
@@ -82,7 +86,7 @@ runs:
           package-names: '*'
           package-type: 'maven'
           min-versions-to-keep: ${{ inputs.min-snapshots-to-keep }}
-          delete-only-pre-release-versions: "true"
+          ignore-versions: ${{ inputs.always-keep-regex }}
 
       - name: Deploy to GitHub packages
         shell: bash

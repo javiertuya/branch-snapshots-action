@@ -39,7 +39,8 @@ jobs:
       run:
         working-directory: test
     steps:
-      - uses: javiertuya/branch-snapshots-action@v1.1.0
+      #- uses: javiertuya/branch-snapshots-action@v1.1.0
+      - uses: javiertuya/branch-snapshots-action@main
         with: 
           token: ${{ secrets.GITHUB_TOKEN }}
           working-directory: test
@@ -47,3 +48,4 @@ jobs:
           mvn-deploy-args: '-P publish-github -DskipTests=true -Dmaven.test.failure.ignore=false -U --no-transfer-progress'
           delete-old-snapshots: true
           min-snapshots-to-keep: 2
+          always-keep-regex: "\\d*\\.\\d*\\.\\d*-main-SNAPSHOT$"

@@ -12,18 +12,20 @@ Each time that it is executed, builds the system and publishes a snapshot with t
 - `mvn-deploy-args`: Optional arguments to be passed to the `mvn deploy` command
 - `delete-old-snapshots` *(Default false)*: If true, keeps only `min-snapshots-to-keep` branch snapshots (versions)
 - `min-snapshots-to-keep` *(Default 2)*: The number of latest branch snapshots (versions) to keep if `delete-old-snapshots` is true
+- `always-keep-regex`: 'An optional regex to specify branch snapshots (versions) that never will be deleted'
 
 ## Example usage
 
 ```yaml
-      - uses: javiertuya/branch-snapshots-action@v1.1.0
+      - uses: javiertuya/branch-snapshots-action@main
         with: 
           token: ${{ secrets.GITHUB_TOKEN }}
           working-directory: test
           java-version: '8'
           mvn-deploy-args: '-P publish-github -DskipTests=true -Dmaven.test.failure.ignore=false -U --no-transfer-progress'
           delete-old-snapshots: true
-          min-snapshots-to-keep: 4
+          min-snapshots-to-keep: 2
+          always-keep-regex: "\\d*\\.\\d*\\.\\d*-main-SNAPSHOT$"
 ```
 
 This action is better used from a dedicated job or workflow, see job `publish-java-snapshot` in:
