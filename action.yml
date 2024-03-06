@@ -60,6 +60,7 @@ runs:
           echo "Renaming initial version: ${oldversion}"
           version=${oldversion//-SNAPSHOT/}
           version=${version}-${{ github.ref_name }}-SNAPSHOT
+          version=${version//\//-}
           echo "to new Version: $version"
           mvn versions:set -DnewVersion=$version --no-transfer-progress
 
