@@ -81,7 +81,8 @@ runs:
       # There is PR https://github.com/actions/delete-package-versions/pull/96 to do so,
       # but still not merged.
       # Here, using the fork with this feature until merged into the official action
-      - uses: apegroup/delete-package-versions@v5.0.0-test22
+      #- uses: apegroup/delete-package-versions@v5.0.0-test22
+      - uses: apegroup-delete-package-versions-fork@javiertuya-fork
         if: inputs.delete-old-snapshots == 'true'
         with: 
           package-names: '*'
