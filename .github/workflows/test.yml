@@ -40,7 +40,7 @@ jobs:
         working-directory: test
     steps:
       #- uses: javiertuya/branch-snapshots-action@v1.1.0
-      - uses: javiertuya/branch-snapshots-action@use-fork
+      - uses: javiertuya/branch-snapshots-action@node18
         with: 
           token: ${{ secrets.GITHUB_TOKEN }}
           working-directory: test
