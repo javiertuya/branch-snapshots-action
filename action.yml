@@ -82,7 +82,7 @@ runs:
       # but still not merged.
       # Here, using the fork with this feature until merged into the official action
       #- uses: apegroup/delete-package-versions@v5.0.0-test22
-      - uses: javiertuya/apegroup-delete-package-versions-fork@node18
+      - uses: javiertuya/apegroup-delete-package-versions-fork@javiertuya-fork
         if: inputs.delete-old-snapshots == 'true'
         with: 
           package-names: '*'
