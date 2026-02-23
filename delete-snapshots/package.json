@@ -26,6 +26,6 @@
     "minimist": "^1.2.8"
   },
   "devDependencies": {
-    "jest": "^29.0.0"
+    "jest": "^30.2.0"
   }
 }
