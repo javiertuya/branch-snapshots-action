@@ -22,7 +22,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@octokit/rest": "^19.0.0",
+    "@octokit/rest": "^22.0.1",
     "minimist": "^1.2.8"
   },
   "devDependencies": {
