@@ -14,6 +14,8 @@ Each time that it is executed, builds the system and publishes a snapshot with t
 - `min-snapshots-to-keep` *(Default 2)*: The number of latest branch snapshots (versions) to keep if `delete-old-snapshots` is true
 - `always-keep-regex`: 'An optional regex to specify branch snapshots (versions) that never will be deleted'
 
+NOTE: Since v2.0.0, removal of old snapshots is made using a nodejs CLI script located in the `delete-snapshots` folder (as the GitHub Action used previously to remove versions of all packages in a repo stopped working)
+
 ## Example usage
 
 ```yaml

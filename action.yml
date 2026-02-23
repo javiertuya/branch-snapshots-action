@@ -82,14 +82,32 @@ runs:
       # but still not merged.
       # Here, using the fork with this feature until merged into the official action
       #- uses: apegroup/delete-package-versions@v5.0.0-test22
-      - uses: javiertuya/apegroup-delete-package-versions-fork@javiertuya-fork
-        if: inputs.delete-old-snapshots == 'true'
-        with: 
-          package-names: '*'
-          package-type: 'maven'
-          min-versions-to-keep: ${{ inputs.min-snapshots-to-keep }}
-          ignore-versions: ${{ inputs.always-keep-regex }}
+#      - uses: javiertuya/apegroup-delete-package-versions-fork@javiertuya-fork
+#        if: inputs.delete-old-snapshots == 'true'
+#        with: 
+#          package-names: '*'
+#          package-type: 'maven'
+#          min-versions-to-keep: ${{ inputs.min-snapshots-to-keep }}
+#          ignore-versions: ${{ inputs.always-keep-regex }}
 
+      # The above action stoped working, removing versions usintg API directly in this action
+      - name: Delete old snapshots
+        if: inputs.delete-old-snapshots == 'true'
+        shell: bash
+        working-directory: ${{ github.action_path }}/delete-snapshots
+        run: |
+          npm install
+          node src/index.js \
+            --token "${{ inputs.token }}" \
+            --repoFullName "${{ github.repository }}" \
+            --packageType "maven" \
+            --alwaysKeepRegex "${{ inputs.always-keep-regex }}" \
+            --versionsToKeep "${{ inputs.min-snapshots-to-keep }}"
+#            --dryRun \
+
+      # NOTE: Old snapshots must be removed before deploy.
+      # This is because (at least with maven), the updated date of packages is not updated when a package is republished.
+      # So, in the case of a package published time ago, republishing and then deleting old packages could delete the package that is republished.
       - name: Deploy to GitHub packages
         shell: bash
         working-directory: ${{ inputs.working-directory }}

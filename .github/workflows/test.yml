@@ -28,10 +28,23 @@ jobs:
       - name: Test and aggregate surefire report
         run: mvn test surefire-report:report -Daggregate=true -Dmaven.test.failure.ignore=true -U --no-transfer-progress
 
+  test-node-delete-snapshots:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: delete-snapshots
+    #if: ${{ false }}  # disable for now
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Test nodejs delete snapshots
+        run: npm install && npm test
+
+  # integration test using this action (change the branch in the action below to test other branches)
   publish-java-snapshot:
     #if: ${{ false }}  # disable for now
     #avoid publishing PRs and dependabot branches
-    if: ${{ github.event_name != 'pull_request' && !startsWith(github.ref, 'refs/heads/dependabot/') && !startsWith(github.ref, 'refs/heads/dashgit/combined/') }}
+    #if: ${{ github.event_name != 'pull_request' && !startsWith(github.ref, 'refs/heads/dependabot/') && !startsWith(github.ref, 'refs/heads/dashgit/combined/') }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
