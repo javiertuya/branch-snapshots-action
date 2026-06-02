@@ -53,8 +53,9 @@ jobs:
       run:
         working-directory: test
     steps:
+      - uses: actions/checkout@v6
       #- uses: javiertuya/branch-snapshots-action@v1.1.0
-      - uses: javiertuya/branch-snapshots-action@main
+      - uses: ./
         with: 
           token: ${{ secrets.GITHUB_TOKEN }}
           working-directory: test

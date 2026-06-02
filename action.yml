@@ -35,8 +35,8 @@ inputs:
 runs:
   using: "composite"
   steps:
-      - name: Check that event is not PR
-        if: github.event_name == 'pull_request'
+      - name: Check that event is not PR (except this action repo)
+        if: github.event_name == 'pull_request' && github.repository != 'javiertuya/branch-snapshots-action'
         shell: bash
         run: |
           echo "ERROR: Branch snapshots can not be created by pull request events"
