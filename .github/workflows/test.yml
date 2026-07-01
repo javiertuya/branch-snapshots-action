@@ -17,7 +17,7 @@ jobs:
         working-directory: test
     #if: ${{ false }}  # disable for now
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Select Java Version
         uses: actions/setup-java@v5
         with:
@@ -35,7 +35,7 @@ jobs:
         working-directory: delete-snapshots
     #if: ${{ false }}  # disable for now
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Test nodejs delete snapshots
         run: npm install && npm test
@@ -53,7 +53,7 @@ jobs:
       run:
         working-directory: test
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       #- uses: javiertuya/branch-snapshots-action@v1.1.0
       - uses: ./
         with: 
