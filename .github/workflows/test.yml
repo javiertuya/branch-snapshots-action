@@ -36,9 +36,15 @@ jobs:
     #if: ${{ false }}  # disable for now
     steps:
       - uses: actions/checkout@v7
+      - name: Select Node Version
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: 'delete-snapshots/.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: 'delete-snapshots/package-lock.json'
 
       - name: Test nodejs delete snapshots
-        run: npm install && npm test
+        run: npm ci && npm test
 
   # integration test using this action (change the branch in the action below to test other branches)
   publish-java-snapshot:

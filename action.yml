@@ -91,12 +91,20 @@ runs:
 #          ignore-versions: ${{ inputs.always-keep-regex }}
 
       # The above action stoped working, removing versions usintg API directly in this action
+      - name: Select Node Version
+        if: inputs.delete-old-snapshots == 'true'
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: ${{ github.action_path }}/delete-snapshots/.nvmrc
+          cache: 'npm'
+          cache-dependency-path: ${{ github.action_path }}/delete-snapshots/package-lock.json
+
       - name: Delete old snapshots
         if: inputs.delete-old-snapshots == 'true'
         shell: bash
         working-directory: ${{ github.action_path }}/delete-snapshots
         run: |
-          npm install
+          npm ci --omit=dev
           node src/index.js \
             --token "${{ inputs.token }}" \
             --repoFullName "${{ github.repository }}" \

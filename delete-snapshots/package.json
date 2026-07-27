@@ -1,6 +1,7 @@
 {
   "name": "delete-snapshots",
   "version": "1.0.0",
+  "private": true,
   "description": "CLI tool to delete old GitHub Packages snapshots according to specified rules.",
   "type": "module",
   "main": "src/index.js",
@@ -21,11 +22,14 @@
   ],
   "author": "",
   "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
   "dependencies": {
-    "@octokit/rest": "^22.0.1",
-    "minimist": "^1.2.8"
+    "@octokit/rest": "22.0.1",
+    "minimist": "1.2.8"
   },
   "devDependencies": {
-    "jest": "^30.2.0"
+    "jest": "30.2.0"
   }
 }
