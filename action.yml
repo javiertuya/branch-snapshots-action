@@ -91,12 +91,26 @@ runs:
 #          ignore-versions: ${{ inputs.always-keep-regex }}
 
       # The above action stoped working, removing versions usintg API directly in this action
+      # setup-node resolves node-version-file against the consumer workspace, not the action path,
+      # so the version is read here to keep .nvmrc as the single source of truth
+      - name: Read Node version
+        id: node-version
+        if: inputs.delete-old-snapshots == 'true'
+        shell: bash
+        run: echo "version=$(cat ${{ github.action_path }}/delete-snapshots/.nvmrc)" >> $GITHUB_OUTPUT
+
+      - name: Select Node Version
+        if: inputs.delete-old-snapshots == 'true'
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ steps.node-version.outputs.version }}
+
       - name: Delete old snapshots
         if: inputs.delete-old-snapshots == 'true'
         shell: bash
         working-directory: ${{ github.action_path }}/delete-snapshots
         run: |
-          npm install
+          npm ci --omit=dev
           node src/index.js \
             --token "${{ inputs.token }}" \
             --repoFullName "${{ github.repository }}" \

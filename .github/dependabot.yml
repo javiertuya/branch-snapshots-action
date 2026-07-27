@@ -15,3 +15,5 @@ updates:
     schedule:
       interval: monthly
     open-pull-requests-limit: 20
+    # Do not rely on the auto heuristic: always bump the requirement in package.json, not only the lock
+    versioning-strategy: increase
