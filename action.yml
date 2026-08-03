@@ -46,7 +46,7 @@ runs:
         uses: actions/checkout@v7
 
       - name: Select Java Version
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v5.6.0
         with:
           distribution: 'temurin'
           java-version: ${{ inputs.java-version }}
@@ -101,7 +101,7 @@ runs:
 
       - name: Select Node Version
         if: inputs.delete-old-snapshots == 'true'
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ steps.node-version.outputs.version }}
 
